@@ -50,6 +50,10 @@ gulp.task('save', ['compile'], function () {
     return;
   }
 
+  // get latest changes
+  gulp.src('./')
+    .pipe(git.pull('origin', 'master'));
+
   // update the version number
   gulp.src('./package.json')
     .pipe(bump())
@@ -57,7 +61,6 @@ gulp.task('save', ['compile'], function () {
 
   // push changes to remote git repository
   gulp.src('./')
-    .pipe(git.pull('origin', 'master'))
     .pipe(git.add())
     .pipe(git.commit(gulp.env.m))
     .pipe(git.push('origin', 'master'));
